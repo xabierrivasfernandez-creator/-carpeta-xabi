@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portafolio — Publicidad & RRPP</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --lime: #CAFF00;
+    --coral: #FF5C3A;
+    --violet: #7B2FFF;
+    --sky: #00D4FF;
+    --ink: #0D0D0D;
+    --cream: #F5F0E8;
+    --mid: #1A1A1A;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CURSOR */
+  .cursor {
+    width: 14px; height: 14px;
+    background: var(--coral);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease, background 0.2s;
+    mix-blend-mode: multiply;
+  }
+  .cursor-trail {
+    width: 36px; height: 36px;
+    border: 2px solid var(--violet);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.35s ease, border-color 0.3s;
+    mix-blend-mode: multiply;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.4rem 3rem;
+    mix-blend-mode: multiply;
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--violet); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 8rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg-shapes {
+    position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  }
+  .shape {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.55;
+    animation: drift 8s ease-in-out infinite alternate;
+  }
+  .s1 { width: 500px; height: 500px; background: var(--lime); top: -100px; right: -100px; animation-delay: 0s; }
+  .s2 { width: 350px; height: 350px; background: var(--sky); bottom: -80px; left: 10%; animation-delay: 2s; }
+  .s3 { width: 280px; height: 280px; background: var(--coral); top: 30%; right: 20%; animation-delay: 4s; }
+
+  @keyframes drift {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(30px, 20px) scale(1.08); }
+  }
+
+  .hero-content { position: relative; z-index: 1; max-width: 900px; }
+  .hero-eyebrow {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: var(--lime);
+    padding: 0.35rem 1rem;
+    margin-bottom: 1.8rem;
+    animation: fadeUp 0.7s ease both;
+  }
+  .hero-name {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3.5rem, 9vw, 8rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 1rem;
+    animation: fadeUp 0.7s 0.15s ease both;
+  }
+  .hero-name span { color: var(--coral); }
+  .hero-tagline {
+    font-size: clamp(1rem, 2.2vw, 1.35rem);
+    font-weight: 300;
+    font-style: italic;
+    color: #444;
+    max-width: 520px;
+    line-height: 1.5;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 0.7rem;
+    background: var(--ink);
+    color: var(--lime);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    transition: background 0.25s, color 0.25s, transform 0.2s;
+    animation: fadeUp 0.7s 0.45s ease both;
+  }
+  .hero-cta:hover { background: var(--violet); color: #fff; transform: translateY(-3px); }
+  .hero-cta .arrow { font-size: 1.1rem; transition: transform 0.2s; }
+  .hero-cta:hover .arrow { transform: translateX(5px); }
+
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 3rem;
+    font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: #777; display: flex; align-items: center; gap: 0.6rem;
+    animation: fadeUp 0.7s 0.6s ease both;
+  }
+  .scroll-line {
+    width: 40px; height: 1px; background: #999;
+    animation: lineGrow 1.5s 1.5s ease both;
+    transform-origin: left;
+  }
+  @keyframes lineGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(25px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* STATS STRIP */
+  .stats-strip {
+    background: var(--ink);
+    color: var(--cream);
+    display: flex;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 1rem 0;
+  }
+  .marquee-track {
+    display: inline-flex;
+    animation: marquee 18s linear infinite;
+    gap: 0;
+  }
+  .marquee-item {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0 2.5rem;
+    display: inline-flex; align-items: center; gap: 1rem;
+  }
+  .dot { color: var(--lime); font-size: 1.2rem; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* SECTIONS */
+  section { padding: 7rem 3rem; }
+  .section-tag {
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--violet);
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+    margin-top: 4rem;
+  }
+  .about-visual {
+    position: relative;
+    height: 420px;
+  }
+  .about-card {
+    position: absolute;
+    border-radius: 0;
+    overflow: hidden;
+  }
+  .card-big {
+    width: 75%; height: 320px;
+    background: linear-gradient(135deg, var(--violet), var(--sky));
+    top: 0; left: 0;
+    display: flex; align-items: flex-end; padding: 1.5rem;
+  }
+  .card-big-text {
+    font-family: 'Syne', sans-serif;
+    font-size: 3rem; font-weight: 800;
+    color: white; line-height: 1;
+  }
+  .card-small {
+    width: 55%; height: 160px;
+    background: var(--lime);
+    bottom: 0; right: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .card-small-text {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 800;
+    color: var(--ink);
+    text-align: center;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+  .about-text p {
+    font-size: 1.05rem;
+    font-weight: 300;
+    line-height: 1.75;
+    color: #333;
+    margin-bottom: 1.2rem;
+  }
+  .skills-pills {
+    display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 2rem;
+  }
+  .pill {
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.45rem 1.1rem;
+    border: 1.5px solid var(--ink);
+    transition: background 0.2s, color 0.2s;
+    cursor: default;
+  }
+  .pill:hover { background: var(--ink); color: var(--lime); }
+
+  /* PROJECTS */
+  .projects { background: var(--ink); color: var(--cream); }
+  .projects .section-tag { color: var(--lime); }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    margin-top: 4rem;
+    background: #333;
+  }
+  .project-card {
+    background: var(--mid);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: background 0.3s;
+    min-height: 280px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .project-card:nth-child(1)::before { background: linear-gradient(135deg, var(--coral), var(--lime)); }
+  .project-card:nth-child(2)::before { background: linear-gradient(135deg, var(--violet), var(--sky)); }
+  .project-card:nth-child(3)::before { background: linear-gradient(135deg, var(--lime), var(--sky)); }
+  .project-card:nth-child(4)::before { background: linear-gradient(135deg, var(--sky), var(--violet)); }
+  .project-card:nth-child(5)::before { background: linear-gradient(135deg, var(--coral), var(--violet)); }
+  .project-card:nth-child(6)::before { background: linear-gradient(135deg, var(--lime), var(--coral)); }
+  .project-card:hover::before { opacity: 1; }
+  .project-card:hover { color: var(--ink); }
+  .project-card > * { position: relative; z-index: 1; }
+  .project-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 4rem; font-weight: 800;
+    opacity: 0.12;
+    position: absolute; top: 1rem; right: 1.5rem;
+    line-height: 1;
+    transition: opacity 0.3s;
+  }
+  .project-card:hover .project-num { opacity: 0.25; }
+  .project-tag {
+    font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--lime); margin-bottom: 0.6rem;
+    transition: color 0.3s;
+  }
+  .project-card:hover .project-tag { color: var(--ink); }
+  .project-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem; font-weight: 700;
+    line-height: 1.2; letter-spacing: -0.02em;
+    margin-bottom: 0.7rem;
+  }
+  .project-desc {
+    font-size: 0.85rem; font-weight: 300; line-height: 1.6;
+    opacity: 0.7; transition: opacity 0.3s;
+  }
+  .project-card:hover .project-desc { opacity: 1; }
+
+  /* SERVICES */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    margin-top: 4rem;
+    background: var(--ink);
+  }
+  .service-item {
+    background: var(--cream);
+    padding: 3rem;
+    display: flex; gap: 2rem; align-items: flex-start;
+    transition: background 0.25s;
+  }
+  .service-item:hover { background: var(--lime); }
+  .service-icon {
+    font-size: 2rem; flex-shrink: 0;
+    width: 50px; height: 50px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .service-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem; font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+  .service-desc {
+    font-size: 0.9rem; font-weight: 300; line-height: 1.6; color: #444;
+  }
+
+  /* CONTACT */
+  .contact {
+    background: var(--violet);
+    color: #fff;
+    text-align: center;
+    padding: 8rem 3rem;
+  }
+  .contact .section-tag { color: var(--lime); }
+  .contact .section-title { color: #fff; }
+  .contact-email {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    font-weight: 800;
+    color: var(--lime);
+    text-decoration: none;
+    display: inline-block;
+    margin: 2rem 0;
+    letter-spacing: -0.03em;
+    transition: letter-spacing 0.3s;
+  }
+  .contact-email:hover { letter-spacing: 0.02em; }
+  .contact-sub {
+    font-size: 1rem; font-weight: 300; font-style: italic;
+    opacity: 0.8; max-width: 400px; margin: 0 auto 3rem;
+    line-height: 1.6;
+  }
+  .contact-socials {
+    display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;
+  }
+  .social-link {
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #fff;
+    text-decoration: none;
+    padding: 0.7rem 1.5rem;
+    border: 1.5px solid rgba(255,255,255,0.4);
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+  }
+  .social-link:hover { background: var(--lime); color: var(--ink); border-color: var(--lime); }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    color: #555;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.5rem 3rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+  }
+  footer span { color: var(--lime); }
+
+  /* SCROLL REVEAL */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 5rem 1.5rem; }
+    .hero { padding: 8rem 1.5rem 4rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .about-visual { height: 260px; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="cursorTrail"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Tu Nombre ✦</a>
+  <ul class="nav-links">
+    <li><a href="#sobre-mi">Sobre mí</a></li>
+    <li><a href="#proyectos">Proyectos</a></li>
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-shapes">
+    <div class="shape s1"></div>
+    <div class="shape s2"></div>
+    <div class="shape s3"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Publicidad & Relaciones Públicas</div>
+    <h1 class="hero-name">Tu<br>Nombre<span>.</span></h1>
+    <p class="hero-tagline">Construyo marcas que resuenan, campañas que impactan y relaciones que perduran.</p>
+    <a href="#proyectos" class="hero-cta">Ver proyectos <span class="arrow">→</span></a>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- MARQUEE STRIP -->
+<div class="stats-strip">
+  <div class="marquee-track" id="marquee">
+    <span class="marquee-item"><span class="dot">✦</span> Estrategia de marca</span>
+    <span class="marquee-item"><span class="dot">✦</span> Relaciones Públicas</span>
+    <span class="marquee-item"><span class="dot">✦</span> Campañas 360°</span>
+    <span class="marquee-item"><span class="dot">✦</span> Comunicación corporativa</span>
+    <span class="marquee-item"><span class="dot">✦</span> Social Media</span>
+    <span class="marquee-item"><span class="dot">✦</span> Creatividad estratégica</span>
+    <span class="marquee-item"><span class="dot">✦</span> Estrategia de marca</span>
+    <span class="marquee-item"><span class="dot">✦</span> Relaciones Públicas</span>
+    <span class="marquee-item"><span class="dot">✦</span> Campañas 360°</span>
+    <span class="marquee-item"><span class="dot">✦</span> Comunicación corporativa</span>
+    <span class="marquee-item"><span class="dot">✦</span> Social Media</span>
+    <span class="marquee-item"><span class="dot">✦</span> Creatividad estratégica</span>
+  </div>
+</div>
+
+<!-- SOBRE MI -->
+<section id="sobre-mi">
+  <div class="section-tag reveal">— Sobre mí</div>
+  <h2 class="section-title reveal">Ideas que<br>mueven personas.</h2>
+  <div class="about-grid">
+    <div class="about-visual reveal">
+      <div class="about-card card-big">
+        <div class="card-big-text">+5<br>años</div>
+      </div>
+      <div class="about-card card-small">
+        <div class="card-small-text">Marcas<br>que<br>conectan</div>
+      </div>
+    </div>
+    <div class="about-text reveal">
+      <p>Soy especialista en publicidad y relaciones públicas con pasión por construir narrativas auténticas que generen conexiones reales entre marcas y personas.</p>
+      <p>Mi enfoque combina pensamiento estratégico con creatividad sin límites: desde el concepto hasta la ejecución, cada proyecto es una oportunidad de dejar huella.</p>
+      <div class="skills-pills">
+        <span class="pill">Estrategia</span>
+        <span class="pill">RRPP</span>
+        <span class="pill">Branding</span>
+        <span class="pill">Copywriting</span>
+        <span class="pill">Prensa</span>
+        <span class="pill">Social Media</span>
+        <span class="pill">Eventos</span>
+        <span class="pill">Crisis</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROYECTOS -->
+<section id="proyectos" class="projects">
+  <div class="section-tag reveal">— Proyectos</div>
+  <h2 class="section-title reveal">Trabajo<br>selecto.</h2>
+  <div class="projects-grid">
+    <div class="project-card reveal">
+      <div class="project-num">01</div>
+      <div class="project-tag">Campaña publicitaria</div>
+      <div class="project-name">Lanzamiento de Marca X</div>
+      <div class="project-desc">Estrategia integral de lanzamiento con alcance nacional, medios tradicionales y digitales.</div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-num">02</div>
+      <div class="project-tag">Relaciones Públicas</div>
+      <div class="project-name">Campaña de Imagen Corporativa</div>
+      <div class="project-desc">Gestión de reputación y posicionamiento para empresa del sector financiero.</div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-num">03</div>
+      <div class="project-tag">Evento & Activación</div>
+      <div class="project-name">Festival de Marca</div>
+      <div class="project-desc">Diseño y ejecución de experiencia de marca con más de 5.000 asistentes.</div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-num">04</div>
+      <div class="project-tag">Social Media</div>
+      <div class="project-name">Campaña Viral #Conéctate</div>
+      <div class="project-desc">Campaña en redes que alcanzó 2M de impresiones orgánicas en 72 horas.</div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-num">05</div>
+      <div class="project-tag">Comunicación de Crisis</div>
+      <div class="project-name">Gestión de Reputación</div>
+      <div class="project-desc">Plan de comunicación estratégica ante crisis mediática con resolución efectiva.</div>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-num">06</div>
+      <div class="project-tag">Branding</div>
+      <div class="project-name">Rebranding Institucional</div>
+      <div class="project-desc">Estrategia comunicacional para reposicionamiento de marca con nueva identidad.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section id="servicios">
+  <div class="section-tag reveal">— Servicios</div>
+  <h2 class="section-title reveal">¿En qué puedo<br>ayudarte?</h2>
+  <div class="services-grid">
+    <div class="service-item reveal">
+      <div class="service-icon">📣</div>
+      <div>
+        <div class="service-title">Campañas Publicitarias</div>
+        <div class="service-desc">Desarrollo de estrategias creativas integrales, desde el concepto hasta la implementación en todos los medios.</div>
+      </div>
+    </div>
+    <div class="service-item reveal">
+      <div class="service-icon">🤝</div>
+      <div>
+        <div class="service-title">Relaciones Públicas</div>
+        <div class="service-desc">Gestión de imagen, relaciones con medios, portavoces y construcción de reputación de marca.</div>
+      </div>
+    </div>
+    <div class="service-item reveal">
+      <div class="service-icon">✍️</div>
+      <div>
+        <div class="service-title">Estrategia de Contenidos</div>
+        <div class="service-desc">Planificación editorial y producción de contenido que conecta con audiencias clave.</div>
+      </div>
+    </div>
+    <div class="service-item reveal">
+      <div class="service-icon">🎯</div>
+      <div>
+        <div class="service-title">Comunicación de Crisis</div>
+        <div class="service-desc">Planes de contingencia y gestión proactiva para proteger y restaurar la reputación corporativa.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto" class="contact">
+  <div class="section-tag reveal">— Contacto</div>
+  <h2 class="section-title reveal">¿Hablamos?</h2>
+  <p class="contact-sub reveal">Abierto/a a proyectos, colaboraciones y nuevas ideas. No muerde.</p>
+  <a href="mailto:tu@email.com" class="contact-email reveal">tu@email.com</a>
+  <div class="contact-socials reveal">
+    <a href="#" class="social-link">LinkedIn</a>
+    <a href="#" class="social-link">Instagram</a>
+    <a href="#" class="social-link">Behance</a>
+    <a href="#" class="social-link">Twitter / X</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>© 2026 <span>Tu Nombre</span>. Todos los derechos reservados.</div>
+  <div>Diseñado con intención ✦</div>
+</footer>
+
+<script>
+  // CURSOR
+  const cursor = document.getElementById('cursor');
+  const trail = document.getElementById('cursorTrail');
+  let mx = 0, my = 0, tx = 0, ty = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.transform = `translate(${mx - 7}px, ${my - 7}px)`;
+  });
+  function animTrail() {
+    tx += (mx - tx) * 0.12;
+    ty += (my - ty) * 0.12;
+    trail.style.transform = `translate(${tx - 18}px, ${ty - 18}px)`;
+    requestAnimationFrame(animTrail);
+  }
+  animTrail();
+  document.querySelectorAll('a, button, .pill, .project-card, .service-item').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform += ' scale(2)';
+      cursor.style.background = 'var(--violet)';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.background = 'var(--coral)';
+    });
+  });
+
+  // SCROLL REVEAL
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => io.observe(el));
+</script>
+</body>
+</html>
